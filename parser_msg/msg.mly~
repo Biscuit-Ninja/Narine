@@ -1,0 +1,28 @@
+%{
+ open Msg
+%}
+
+%token 2PTS
+%token 2PTS_TRAIT
+%token EXCL
+%token AT
+%token EQ
+%token EOF
+%token <int> INT
+%token <string> STR
+
+%start message
+%type <msg> message
+
+
+  
+%%
+
+main:
+  msg EOF { $1 }
+;
+
+msg:
+  2PTS prefix SPACE cmd SPACE param { msg($2,$4,$6) }
+;
+
