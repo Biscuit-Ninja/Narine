@@ -1,4 +1,7 @@
 
+(* connect to the irssi server *)
+(* - server -> string : is the DNS of the server *)
+(* - port -> int : is the port *)
 let connect (server : string) (port : int) : Unix.file_descr =
   let s_descr = Unix.socket Unix.PF_INET Unix.SOCK_STREAM 0 in
   let addr = try (Unix.gethostbyname server)
@@ -18,7 +21,7 @@ let key_pressed () =
     | str when str = "s" -> true
     | _ -> false
 
-
+(* Get a message from the irssi server *)
 let receive (fdin : Unix.file_descr) : string =
   (*let buffer_size = 4096 in
   let buffer = String.create buffer_size in
@@ -50,7 +53,7 @@ let pong (fd : Unix.file_descr) (msg : string) : unit =
     fd
     (concat " " ["PONG";msg])
     
-  
+(* Send information to the server to identify the bot *)
 let init
     (fd : Unix.file_descr)
     (nick : string)
@@ -83,6 +86,7 @@ let run (fd : Unix.file_descr) : unit =
     else ()
   done
 
+(* shutdown the connection *)
 let shutdown (fd : Unix.file_descr) : unit =
   begin
     (* print_string "Déconnexion..\n"; *)
